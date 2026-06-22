@@ -15,7 +15,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $search=$request->search;
-        $products=Product::query()->when($search,function($query) use ($search){
+        $products=Product::with('category') ->when($search,function($query) use ($search){
         $query->where('name','like',"%{$search}%");
         })->paginate(5);
         return response()->json($products);
