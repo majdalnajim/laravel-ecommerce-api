@@ -14,10 +14,14 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        // dd($request->category_id); 
         $search=$request->search;
+        $categoryId=$request->category_id;
         $products=Product::with('category') ->when($search,function($query) use ($search){
         $query->where('name','like',"%{$search}%");
-        })->paginate(5);
+        })->when($categoryId,function ($query) use ($categoryId){
+            $query->where('category_id',$categoryId);
+        } )->paginate(5);
         return response()->json($products);
     }
 
