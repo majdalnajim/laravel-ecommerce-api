@@ -39,7 +39,8 @@ class ProductController extends Controller
             'description'=>'nullable|string',
             'price'=>'required|numeric|min:1',
             'stock'=>'required|integer|min:0',
-            'image'=>'nullable|string'
+            'image'=>'nullable|string',
+            'category_id'=>'numeric',
         ]);
         $product=Product::create($data);
         return response()->json([
