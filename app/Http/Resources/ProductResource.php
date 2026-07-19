@@ -26,4 +26,4 @@ class ProductResource extends JsonResource
             'createed_at'=>$this->created_at
         ];
     }
-}
+}  
