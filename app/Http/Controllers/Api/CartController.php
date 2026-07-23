@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cart;
+use App\Http\Resources\CartItemResource;
+use App\Http\Resources\CartResource;
+
+
 class CartController extends Controller
 {
     public function store(Request $request){
@@ -33,8 +37,17 @@ class CartController extends Controller
         
         return response()->json([
         'massage'=>'Product added to cart successfully',
-        'item'=>$item
+        'item'=>new CartItemResource($item)
         ],201);
 
+    }
+    public function show(Request $request){
+        $cart=$request->user()->cart()->with('items.product')->first();
+        if(!$cart){
+            return response()->json([
+                'massage'=>'Cart is empty.'
+            ],404);
+        }
+        return new CartResource($cart);
     }
 }
