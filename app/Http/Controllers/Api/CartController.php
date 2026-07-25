@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cart;
+use App\Models\CartItem;
 use App\Http\Resources\CartItemResource;
 use App\Http\Resources\CartResource;
 
@@ -49,5 +50,21 @@ class CartController extends Controller
             ],404);
         }
         return new CartResource($cart);
+    }
+    public function update(Request $request,CartItem $cartItem){
+        $data=$request->validate([
+            'quantity'=>'required|integer|min:1'
+        ]);
+
+        if($cartItem->cart->user_id !== $request->user()->id){
+            abort(403);
+        }
+        
+        $cartItem->update([
+            'quantity'=>$data['quantity']
+        ]);
+        $cartItem->load('product');
+        return new CartItemResource($cartItem);
+
     }
 }
