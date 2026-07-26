@@ -67,4 +67,27 @@ class CartController extends Controller
         return new CartItemResource($cartItem);
 
     }
+
+    public function destroy(Request $request,CartItem $cartItem){
+            if  ($cartItem->cart->user_id!==$request->user()->id){
+                abort(403);
+            }
+
+            $cartItem->delete();
+            return response()->json([
+                "message"=>"cart item removed successfully"
+            ],200);
+    }
+    public function clear(Request $request){
+           $cart=$request->user()->cart()->first();
+if(!$cart){
+    return reponse()->json([
+        "message"=>"Cart is empty"
+    ],404);
+}
+            $cart->items()->delete();
+            return response()->json([
+                "message"=>"cart removed successfully"
+            ],200);
+    }
 }
