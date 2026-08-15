@@ -25,8 +25,12 @@ Route::delete('/cart',[CartController::class,'clear']);
 });
 
 // Route Order
-Route::middleware('auth:sanctum')->post("/orders",[OrderController::class,"store"]);
-
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/orders', [OrderController::class, 'store']);
+    Route::get('/orders', [OrderController::class, 'index']);
+    Route::get('/orders/{order}', [OrderController::class, 'show']);
+    Route::delete('/orders/{order}', [OrderController::class, 'cancel']);
+});
 
 // Route Auth
 Route::post("/register",[AuthController::class,"register"]);

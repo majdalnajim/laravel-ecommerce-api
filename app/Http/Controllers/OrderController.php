@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -63,4 +64,38 @@ class OrderController extends Controller
             $order
         );
     }
+public function index(Request $request)
+{
+    $orders = $request->user()
+        ->order()
+        ->latest()
+        ->paginate(10);
+
+    return OrderResource::collection($orders);
+}
+
+public function show(Order $order){
+Gate::authorize('view',$order);
+$order->load('orderItem.product');
+return new OrderResource($order);
+}
+ 
+public function cancel(Order $order){
+Gate::authorize('view',$order);
+$order->load('orderItem.product');
+if($order->status!=='pending'){
+    return response()->json([
+        'message'=>'Order connet be cancelled.'
+    ],400);
+}
+
+DB::transaction(function() use($order){
+    foreach($order->orderItem as $orderItem){
+            $orderItem->product->increment('stock',$orderItem->quantity);  
+            }     
+            $order->status='cancelled' ; 
+            $order->save();
+});
+return new OrderResource($order->load('OrderItem.product'));
+}
 }
