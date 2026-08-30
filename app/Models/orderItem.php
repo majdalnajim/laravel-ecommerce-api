@@ -18,6 +18,6 @@ class orderItem extends Model
     }
 
     public function product(){
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class)->withTrashed();
     }
 }

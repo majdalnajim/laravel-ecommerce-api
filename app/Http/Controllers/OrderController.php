@@ -106,7 +106,7 @@ return new OrderResource($order->load('OrderItem.product'));
 public function updateStatus(Request $request,Order $order){
     Gate::authorize('updateStatus',$order);
     $request->validate([
-        'status'=>'required|in:pending,processing,shipped,completed,cancelled'
+        'status'=>'required|in:pending,processing,shipped,completed'
     ]);
     $order->update([
         'status'=>$request->status
