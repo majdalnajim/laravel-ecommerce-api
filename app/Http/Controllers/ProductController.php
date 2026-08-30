@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 
 class ProductController extends Controller
 {
@@ -15,7 +17,6 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        // dd($request->category_id); 
         $search=$request->search;
         $categoryId=$request->category_id;
         $products=Product::with('category') ->when($search,function($query) use ($search){
@@ -48,10 +49,10 @@ class ProductController extends Controller
             'image'=>'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'category_id'=>'nullable|exists:categories,id',
         ]);
+        
         $path=$request->file('image')->store('products','public');
 
         if($request->hasFile('image')){
-            Storage::disk('public')->delete($product->image);
             $data['image']=$path; 
         };
         $product=Product::create($data);

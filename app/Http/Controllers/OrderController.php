@@ -42,6 +42,7 @@ class OrderController extends Controller
         $orderItem=OrderItem::create([
                 'order_id'=>$order->id,
                 'product_id'=>$item->product_id,
+                'product_name'=>$item->product->name,
                 'quantity'=>$item->quantity,
                 'price'=>$item->product->price
             
@@ -81,21 +82,36 @@ return new OrderResource($order);
 }
  
 public function cancel(Order $order){
-Gate::authorize('view',$order);
+Gate::authorize('cancel',$order);
 $order->load('orderItem.product');
-if($order->status!=='pending'){
-    return response()->json([
-        'message'=>'Order connet be cancelled.'
-    ],400);
-}
+
+// if($order->status!=='pending'){
+//     return response()->json([
+//         'message'=>'Order connet be cancelled.'
+//     ],400);
+// }
 
 DB::transaction(function() use($order){
-    foreach($order->orderItem as $orderItem){
-            $orderItem->product->increment('stock',$orderItem->quantity);  
-            }     
+    foreach($order->orderItem as $item){
+        if($item->product){
+            $item->product->increment('stock',$item->quantity);  
+            }}
             $order->status='cancelled' ; 
             $order->save();
 });
 return new OrderResource($order->load('OrderItem.product'));
+}
+
+
+public function updateStatus(Request $request,Order $order){
+    Gate::authorize('updateStatus',$order);
+    $request->validate([
+        'status'=>'required|in:pending,processing,shipped,completed,cancelled'
+    ]);
+    $order->update([
+        'status'=>$request->status
+    ]);
+
+    return new OrderResource($order->load('OrderItem.product'));
 }
 }
