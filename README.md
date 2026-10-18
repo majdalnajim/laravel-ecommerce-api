@@ -1,10 +1,10 @@
-Laravel E-commerce REST API
+## Laravel E-commerce REST API
 
 A RESTful e-commerce backend built with Laravel and MySQL, providing product and category management, shopping cart operations, order processing, and inventory management.
 
 This project demonstrates practical backend development concepts, including API authentication, database relationships, request validation, resource responses, database transactions, authorization, and automated testing.
 
-Features
+## Features
 
 * Authentication: User registration and login using Laravel Sanctum.
 * Product Management: Create, retrieve, update, and delete products.
@@ -19,7 +19,7 @@ Features
 * Soft Deletes: Support soft deletion for products.
 * Automated Tests: Feature tests for product, cart, and order workflows.
 
-Tech Stack
+## Tech Stack
 
 * PHP
 * Laravel
@@ -29,14 +29,14 @@ Tech Stack
 * RESTful API
 * PHPUnit / Laravel Testing
 
-Requirements
+## Requirements
 
 * PHP version compatible with the project’s composer.json
 * Composer
 * MySQL
 * Node.js and npm if frontend assets need to be built
 
-Installation
+## Installation
 
 1. Clone the repository:
 
@@ -91,30 +91,30 @@ Accept: application/json
 
 Protected routes use Laravel Sanctum authentication.
 
-API Endpoints
+## API Endpoints
 
 The following endpoint paths reflect the project’s current route structure. Protected endpoints require authentication unless configured otherwise.
 
-Method	Endpoint	Description
-POST	/api/register	Register a user
-POST	/api/login	Log in
-GET	/api/user	Get the authenticated user
-GET	/api/products	List products
-POST	/api/products	Create a product
-GET	/api/products/{id}	Get a product
-PUT/PATCH	/api/products/{id}	Update a product
-DELETE	/api/products/{id}	Delete a product
-GET	/api/category	List categories
-POST	/api/cart/items	Add an item to the cart
-POST	/api/cart	View the cart
-PATCH	/api/cart/items/{cartItem}	Update cart item quantity
-DELETE	/api/cart/items/{cartItem}	Remove a cart item
-DELETE	/api/cart	Clear the cart
-POST	/api/orders	Create an order
-GET	/api/orders	List the authenticated user’s orders
-GET	/api/orders/{order}	View an order
-PATCH	/api/orders/{order}/status	Update order status, subject to authorization
-DELETE	/api/orders/{order}	Cancel an eligible order
+ Method	Endpoint	Description:
+1. POST	/api/register	Register a user
+2. POST	/api/login	Log in
+3. GET	/api/user	Get the authenticated user
+4. GET	/api/products	List products
+5. POST	/api/products	Create a product
+6. GET	/api/products/{id}	Get a product
+7. PUT/PATCH	/api/products/{id}	Update a product
+8. DELETE	/api/products/{id}	Delete a product
+9. GET	/api/category	List categories
+10. POST	/api/cart/items	Add an item to the cart
+11. POST	/api/cart	View the cart
+12. PATCH	/api/cart/items/{cartItem}	Update cart item quantity
+13. DELETE	/api/cart/items/{cartItem}	Remove a cart item
+14. DELETE	/api/cart	Clear the cart
+15. POST	/api/orders	Create an order
+16. GET	/api/orders	List the authenticated user’s orders
+17. GET	/api/orders/{order}	View an order
+18. PATCH	/api/orders/{order}/status	Update order status, subject to authorization
+19. DELETE	/api/orders/{order}	Cancel an eligible order
 
 Check routes/api.php for the complete route list and supported HTTP methods.
 
@@ -126,7 +126,7 @@ php artisan test
 
 The feature tests cover key product, cart, and order operations, including successful requests and relevant authorization or business-rule checks.
 
-Project Structure
+## Project Structure
 
 app/
   Http/
@@ -141,7 +141,7 @@ database/
 tests/
   Feature/
 
-Security Notes
+## Security Notes
 
 * Keep environment secrets and database credentials out of version control.
 * Use authorization rules for administrative operations.
@@ -149,7 +149,7 @@ Security Notes
 * Configure production environment variables separately from local development.
 * Use HTTPS in production.
 
-Author
+## Author
 
 Majd Al Najim
 
