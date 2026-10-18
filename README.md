@@ -1,59 +1,158 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Laravel E-commerce REST API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A RESTful e-commerce backend built with Laravel and MySQL, providing product and category management, shopping cart operations, order processing, and inventory management.
 
-## About Laravel
+This project demonstrates practical backend development concepts, including API authentication, database relationships, request validation, resource responses, database transactions, authorization, and automated testing.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* Authentication: User registration and login using Laravel Sanctum.
+* Product Management: Create, retrieve, update, and delete products.
+* Category Management: Organize products by category.
+* Shopping Cart: Add products, update quantities, remove items, and clear the cart.
+* Order Management: Create orders from cart items, view orders, and cancel eligible orders.
+* Inventory Management: Validate stock availability and restore stock when eligible orders are cancelled.
+* Authorization: Restrict protected operations according to authentication and authorization rules.
+* API Resources: Structure API responses using Laravel API Resources.
+* Search and Filtering: Search products and filter results.
+* Pagination: Return product listings in manageable pages.
+* Soft Deletes: Support soft deletion for products.
+* Automated Tests: Feature tests for product, cart, and order workflows.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Tech Stack
 
-## Learning Laravel
+* PHP
+* Laravel
+* MySQL
+* Laravel Sanctum
+* Eloquent ORM
+* RESTful API
+* PHPUnit / Laravel Testing
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Requirements
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* PHP version compatible with the project’s composer.json
+* Composer
+* MySQL
+* Node.js and npm if frontend assets need to be built
 
-## Laravel Sponsors
+Installation
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. Clone the repository:
 
-### Premium Partners
+git clone https://github.com/majdalnajim/laravel-ecommerce-api.git
+cd laravel-ecommerce-api
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+2. Install PHP dependencies:
 
-## Contributing
+composer install
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3. Create your environment file:
 
-## Code of Conduct
+cp .env.example .env
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    On Windows, you can copy .env.example to .env manually.
+4. Generate the application key:
 
-## Security Vulnerabilities
+php artisan key:generate
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5. Configure your database settings in .env:
 
-## License
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel_ecommerce
+DB_USERNAME=your_database_username
+DB_PASSWORD=your_database_password
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    Create the database before running the migrations.
+6. Run database migrations:
+
+php artisan migrate
+
+7. Create the public storage link for uploaded product images:
+
+php artisan storage:link
+
+8. Start the development server:
+
+php artisan serve
+
+The API will usually be available at http://127.0.0.1:8000.
+
+Authentication
+
+Register or log in using the authentication endpoints. Use the authentication token returned by the API when calling protected endpoints.
+
+Send the token in the request header:
+
+Authorization: Bearer YOUR_ACCESS_TOKEN
+Accept: application/json
+
+Protected routes use Laravel Sanctum authentication.
+
+API Endpoints
+
+The following endpoint paths reflect the project’s current route structure. Protected endpoints require authentication unless configured otherwise.
+
+Method	Endpoint	Description
+POST	/api/register	Register a user
+POST	/api/login	Log in
+GET	/api/user	Get the authenticated user
+GET	/api/products	List products
+POST	/api/products	Create a product
+GET	/api/products/{id}	Get a product
+PUT/PATCH	/api/products/{id}	Update a product
+DELETE	/api/products/{id}	Delete a product
+GET	/api/category	List categories
+POST	/api/cart/items	Add an item to the cart
+POST	/api/cart	View the cart
+PATCH	/api/cart/items/{cartItem}	Update cart item quantity
+DELETE	/api/cart/items/{cartItem}	Remove a cart item
+DELETE	/api/cart	Clear the cart
+POST	/api/orders	Create an order
+GET	/api/orders	List the authenticated user’s orders
+GET	/api/orders/{order}	View an order
+PATCH	/api/orders/{order}/status	Update order status, subject to authorization
+DELETE	/api/orders/{order}	Cancel an eligible order
+
+Check routes/api.php for the complete route list and supported HTTP methods.
+
+Running Tests
+
+Run the automated test suite with:
+
+php artisan test
+
+The feature tests cover key product, cart, and order operations, including successful requests and relevant authorization or business-rule checks.
+
+Project Structure
+
+app/
+  Http/
+    Controllers/
+    Resources/
+  Models/
+  Policies/
+routes/
+  api.php
+database/
+  migrations/
+tests/
+  Feature/
+
+Security Notes
+
+* Keep environment secrets and database credentials out of version control.
+* Use authorization rules for administrative operations.
+* Validate incoming requests and enforce ownership of user-specific resources.
+* Configure production environment variables separately from local development.
+* Use HTTPS in production.
+
+Author
+
+Majd Al Najim
+
+GitHub: @majdalnajim
+
+Repository: laravel-ecommerce-api
