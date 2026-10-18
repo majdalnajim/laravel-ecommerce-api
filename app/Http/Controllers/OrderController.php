@@ -81,15 +81,15 @@ $order->load('orderItem.product');
 return new OrderResource($order);
 }
  
-public function cancel(Order $order){
+public function cancel(Request $request, Order $order){
 Gate::authorize('cancel',$order);
 $order->load('orderItem.product');
 
-// if($order->status!=='pending'){
-//     return response()->json([
-//         'message'=>'Order connet be cancelled.'
-//     ],400);
-// }
+if($order->status!=='pending'  && $request->user()->role !== 'admin'){
+    return response()->json([
+        'message'=>'Order connet be cancelled.'
+    ],400);
+}
 
 DB::transaction(function() use($order){
     foreach($order->orderItem as $item){

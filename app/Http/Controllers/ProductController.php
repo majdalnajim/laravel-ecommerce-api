@@ -50,9 +50,9 @@ class ProductController extends Controller
             'category_id'=>'nullable|exists:categories,id',
         ]);
         
-        $path=$request->file('image')->store('products','public');
-
+        
         if($request->hasFile('image')){
+            $path=$request->file('image')->store('products','public');
             $data['image']=$path; 
         };
         $product=Product::create($data);
@@ -91,10 +91,10 @@ class ProductController extends Controller
             'image'=>'sometimes|image|mimes:jpg,jpeg,png|max:2048'
         ]);
         
-        $path=$request->file('image')->store('products','public');
-
-
+        
+        
         if($request->hasFile('image')){
+            $path=$request->file('image')->store('products','public');
             storage::disk('public')->delete($product->image);
             $data['image']=$path; 
             };
@@ -112,7 +112,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-         storage::disk('public')->delete($product->image);
+        if($product->image){
+
+            storage::disk('public')->delete($product->image);
+        }
 
         $product->delete();
         return response()->json([

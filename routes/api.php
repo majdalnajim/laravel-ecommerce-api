@@ -17,11 +17,11 @@ Route::get('/user', function (Request $request) {
 
 // Route Cart
 Route::middleware('auth:sanctum')->group(function(){
-Route::post('/cart/items',[CartController::class,'store']);
-Route::post('/cart',[CartController::class,'show']);
-Route::patch('/cart/items/{cartItem}',[CartController::class,'update']);
-Route::delete('/cart/items/{cartItem}',[CartController::class,'destroy']);
-Route::delete('/cart',[CartController::class,'clear']);
+    Route::post('/cart/items',[CartController::class,'store']);
+    Route::post('/cart',[CartController::class,'show']);
+    Route::patch('/cart/items/{cartItem}',[CartController::class,'update']);
+    Route::delete('/cart/items/{cartItem}',[CartController::class,'destroy']);
+    Route::delete('/cart',[CartController::class,'clear']);
 });
 
 // Route Order
@@ -31,11 +31,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/orders/{order}', [OrderController::class, 'show']);
     Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus']);
     Route::delete('/orders/{order}', [OrderController::class, 'cancel']);
+    Route::apiResource("products",ProductController::class);
+    Route::apiResource("category",CategoryController::class);
 });
 
 // Route Auth
 Route::post("/register",[AuthController::class,"register"]);
 Route::post("/login",[AuthController::class,"login"]);
-Route::apiResource("products",ProductController::class);
-Route::apiResource("category",CategoryController::class);
 

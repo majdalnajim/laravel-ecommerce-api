@@ -68,6 +68,6 @@ class OrderPolicy
         return $user->role==='admin';
     }
     public function cancel(User $user,Order $order):bool{
-        return $user->role==='admin'||($user->id === $order->user_id && $order->status==='panding');
+        return $user->role==='admin'||$user->id === $order->user_id;
     }
 }
